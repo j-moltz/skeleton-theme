@@ -9,10 +9,25 @@
  */
 {
   "sections": {
-    "main": {
+    "hero_homepage_two_4NhEDW": {
       "type": "hero-homepage-two",
-      "settings": {}
+      "name": "Homepage Hero TWO",
+      "settings": {
+        "image": "shopify://shop_images/collection-tiles.jpg",
+        "heading_text": "heading",
+        "subheading_text": "subheading",
+        "text_color": "#ffffff",
+        "background_color": "#000000",
+        "button_label": "shop unscented",
+        "button_link": "shopify://products/cotton-dryer-sheets",
+        "variant_select_id_1": "1",
+        "button_label_2": "shop scented",
+        "button_link_2": "shopify://products/cotton-dryer-sheets",
+        "variant_select_id_2": "2"
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "hero_homepage_two_4NhEDW"
+  ]
 }
