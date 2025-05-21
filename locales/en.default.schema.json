@@ -49,6 +49,11 @@
     "text_style": "Text style",
     "text": "Text"
   },
+  "newsletter": {
+    "label": "Email",
+    "success": "Thanks for subscribing",
+    "button_label": "Subscribe"
+  },
   "options": {
     "alignment": {
       "left": "Left",
@@ -71,6 +76,6 @@
       "title": "Title",
       "subtitle": "Subtitle",
       "normal": "Normal text"
-    },
+    }
   }
 }
