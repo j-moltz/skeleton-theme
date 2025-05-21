@@ -1,0 +1,144 @@
+{% style %}
+  #safe-{{ section.id }} {
+    padding: 2rem 0 1rem;
+  }
+  .safe-item-container {
+  }
+  #safe-boxes-image {
+    display: block;
+    width: 75%;
+    height: auto;
+    margin: auto 0 auto auto;
+  }
+  .safe-item {
+    margin-top: 1.25rem;
+    max-width: 800px;
+  }
+  h4.safe-title {
+    font-size: 1.25rem;
+    font-size: 1rem;
+    margin-top: .25rem;
+    margin-bottom: .25rem;
+  }
+  p.safe-item-paragraph {
+    margin: 0;
+  }
+  img.safe-icon {
+    width: 15%;
+    max-width: 60px;
+  }
+  @media screen and (min-width: 500px) {
+    .safe-item {
+      display: flex;
+      flex-direction: row;
+    }
+    .safe-text-container {
+      margin-left: 1.5rem;
+    }
+  }
+  @media screen and (min-width: 768px) {
+    .safe-top-container {
+      position: relative;
+      padding-bottom: 2rem;
+    }
+    #safe-{{ section.id }} .safe-top-container > h2 {
+      position: absolute;
+      bottom: 0;
+    }
+  }
+  @media screen and (min-width: 1000px) {
+    .safe-top-container {
+      padding-bottom: 0;
+    }
+  }
+{% endstyle %}
+<div id="safe-{{ section.id }}">
+  <div class="page-width">
+    <div class="safe-top-container">
+      {% liquid
+        assign sizes = '75vw'
+        assign widths = '375, 550, 750, 1100, 1500, 2000'
+        assign image_height = section.settings.top_image.width | divided_by: section.settings.top_image.aspect_ratio
+      %}
+      {{
+        section.settings.top_image
+        | image_url: width: 2000
+        | image_tag:
+          width: section.settings.image.width,
+          height: image_height,
+          id: 'safe-boxes-image',
+          sizes: sizes,
+          widths: widths,
+          fetch_priority: 'lazy'
+      }}
+      {% comment %} <img src="{{ section.settings.top_image | image_url: width: 1000 }}" id="safe-boxes-image" alt="{{ section.settings.top_image.alt }}"> {% endcomment %}
+      {{ section.settings.heading }}
+    </div>
+    <div class="safe-item-container">
+      {% for block in section.blocks %}
+        <div class="safe-item">
+          {{ block.settings.safe_image | image_url: width: 60 | image_tag: class: 'safe-icon' }}
+          <div class="safe-text-container">
+            <h4 class="safe-title font-avenir-next text-uppercase">{{ block.settings.safe_heading }}</h4>
+            <p class="safe-item-paragraph">{{ block.settings.safe_text }}</p>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Safest",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "image_picker",
+      "id": "top_image",
+      "label": "Top Image"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "safe-block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "safe_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "safe_text",
+          "label": "Text"
+        },
+        {
+          "type": "image_picker",
+          "id": "safe_image",
+          "label": "Icon"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Safest",
+      "blocks": [
+        {
+          "type": "safe-block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,169 @@
+{% style %}
+  #highlight-product-{{ section.id }} {
+    background-color: {{ section.settings.color }};
+    width: 100%;
+  }
+  .highlight-product-container {
+    width: 100%;
+  }
+  .highlight-product-text-container {
+    text-align: center;
+    padding: 0 1rem;
+    margin: 3rem auto;
+    width: 100%;
+  }
+  .highlight-product-text-container h2 {
+    margin: 0 auto;
+  }
+  .highlight-product-text-container h3 {
+    margin: 0 auto;
+  }
+  .highlight-product-text-container p {
+    margin: 1rem auto 0;
+  }
+  .highlight-product-text-container a {
+    margin: 1.5rem auto 0;
+  }
+  .highlight-product-image-container {
+    width: 100%;
+    max-width: 100%;
+  }
+  .highlight-product-image-container > img {
+    width: 100%;
+    height: auto;
+  }
+  .highlight-product-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+  @media screen and (min-width: 768px) {
+    {% if section.settings.image_first %}
+      #highlight-product-{{ section.id }} > .highlight-product-container {
+        flex-direction: row-reverse;
+      }
+    {% endif %}
+    .highlight-product-text-container {
+      {% if section.settings.image_first %}
+        padding: 0 3rem 0 1.5rem;
+      {% else %}
+        padding: 0 1.5rem 0 3rem;
+      {% endif %}
+      text-align: left;
+      width: 40%;
+      margin: auto;
+    }
+    .highlight-product-text-container h2 {
+      margin: 0 auto 1rem;
+    }
+    .highlight-product-image-container {
+      width: 60%;
+    }
+  }
+{% endstyle %}
+<div id="highlight-product-{{ section.id }}">
+  <div class="highlight-product-container day-flex-m-col-d-row">
+    <div class="highlight-product-text-container">
+      {% if section.settings.heading %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.sub_heading %}
+        <h3 class="font-avenir-next font-weight-400">{{ section.settings.sub_heading }}</h3>
+      {% endif %}
+      {% if section.settings.paragraph %}
+        {{ section.settings.paragraph }}
+      {% endif %}
+      {% if section.settings.button_text %}
+        <a
+          href="{{ section.settings.product.url }}{% if section.settings.variant_select_id != blank%}?variant={{ section.settings.variant_select_id }}{% endif %}"
+          class="daybreak-button"
+        >
+          {{ section.settings.button_text }}
+        </a>
+      {% endif %}
+    </div>
+    <div class="highlight-product-image-container">
+      {% liquid
+        assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+      %}
+      {{
+        section.settings.image
+        | image_url: width: 2000
+        | image_tag:
+          width: section.sttings.image.width,
+          height: image_height,
+          class: 'highlight-product-image',
+          sizes: '(min-width: 768px) 60vw, 100vw',
+          widths: '450, 660, 900, 1320, 1800, 2000',
+          fetchpriority: 'auto'
+      }}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Highlight Product",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Name",
+      "label": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "sub_heading",
+      "default": "highlight",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "paragraph",
+      "label": "Description"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop"
+    },
+    {
+      "type": "text",
+      "id": "variant_select_id",
+      "label": "Variant ID#"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Custom Image"
+    },
+    {
+      "type": "checkbox",
+      "id": "image_first",
+      "label": "Image First?"
+    },
+    {
+      "type": "color",
+      "id": "color",
+      "default": "#f5f3ed",
+      "label": "Background Color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Highlight Product"
+    }
+  ]
+}
+{% endschema %}

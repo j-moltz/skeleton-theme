@@ -1,0 +1,210 @@
+{{ 'daybreak-facts.css' | asset_url | stylesheet_tag }}
+{% style %}
+  #facts-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    color: {{ section.settings.font_color }};
+  }
+
+  .facts-carousel-dots {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    gap: 0.5rem;
+  }
+
+  .carousel-dot {
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+  }
+
+  .carousel-dot.active circle {
+    fill: {{ section.settings.font_color }};
+  }
+
+  .carousel-dot:not(.active) circle {
+    fill: {{ section.settings.font_color }};
+    opacity: 0.4;
+  }
+{% endstyle %}
+<div id="facts-{{ section.id }}">
+  <div class="facts-container">
+    <div class="facts-carousel">
+      <div class="facts-carousel-track">
+        {% for block in section.blocks %}
+          <div
+            class="facts-item-card{% if forloop.index == 1 or section.blocks.size == 1 %} active{% endif %}"
+            data-fact-index="{{ forloop.index }}"
+          >
+            {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy' }}
+            <p class="font-avenir-next">{{ block.settings.heading }}</p>
+            <div class="fact-button-container">
+              <a href="{{ section.settings.button_url }}" class="daybreak-button">{{ section.settings.button_text }}</a>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      {% if section.blocks.size > 1 %}
+        <div class="facts-carousel-dots">
+          {% for block in section.blocks %}
+            <svg
+              class="carousel-dot{% if forloop.index == 1 %} active{% endif %}"
+              width="12"
+              height="12"
+              viewBox="0 0 12 12"
+              data-index="{{ forloop.index }}"
+              onclick="changeSlide({{ forloop.index }}, '{{ section.id }}')"
+            >
+              <circle cx="6" cy="6" r="5"></circle>
+            </svg>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<script>
+  function changeSlide(index, sectionId) {
+    const container = document.querySelector(`#facts-${sectionId}`);
+    const cards = container.querySelectorAll('.facts-item-card');
+    const dots = container.querySelectorAll('.carousel-dot');
+
+    // Hide all cards and deactivate all dots
+    cards.forEach(card => {
+      card.classList.remove('active');
+    });
+
+    dots.forEach(dot => {
+      dot.classList.remove('active');
+    });
+
+    // Show the selected card and activate the corresponding dot
+    const selectedCard = container.querySelector(`.facts-item-card[data-fact-index="${index}"]`);
+    const selectedDot = container.querySelector(`.carousel-dot[data-index="${index}"]`);
+
+    if (selectedCard) {
+      selectedCard.classList.add('active');
+    }
+
+    if (selectedDot) {
+      selectedDot.classList.add('active');
+    }
+  }
+
+  // Auto-rotate carousel
+  document.addEventListener('DOMContentLoaded', function() {
+    const sectionId = '{{ section.id }}';
+    const container = document.querySelector(`#facts-${sectionId}`);
+    const totalSlides = {{ section.blocks.size }};
+    let currentSlide = 1;
+    const autoRotate = {{ section.settings.auto_rotate }};
+    const rotationSpeed = {{ section.settings.rotation_speed | default: 5 }} * 1000;
+
+    // Only auto-rotate if there are multiple slides and auto-rotate is enabled
+    if (totalSlides > 1 && autoRotate === true) {
+      setInterval(() => {
+        currentSlide = currentSlide % totalSlides + 1;
+        changeSlide(currentSlide, sectionId);
+      }, rotationSpeed);
+    }
+  });
+</script>
+
+{% schema %}
+{
+  "name": "facts",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font Color"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Shop"
+    },
+    {
+      "type": "url",
+      "id": "button_url",
+      "label": "Button URL"
+    },
+    {
+      "type": "select",
+      "id": "auto_rotate",
+      "label": "Auto-rotate slides",
+      "options": [
+        {
+          "value": "true",
+          "label": "Enabled"
+        },
+        {
+          "value": "false",
+          "label": "Disabled"
+        }
+      ],
+      "default": "true"
+    },
+    {
+      "type": "range",
+      "id": "rotation_speed",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "unit": "s",
+      "label": "Change slides every",
+      "default": 5
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Fact Block",
+      "type": "fact-block",
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "label": "Fact Text"
+        },
+        {
+          "type": "text",
+          "id": "source",
+          "label": "source"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "facts",
+      "blocks": [
+        {
+          "type": "fact-block"
+        },
+        {
+          "type": "fact-block"
+        },
+        {
+          "type": "fact-block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,245 @@
+{% style %}
+  #Banner-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  .daybreak-banner-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .daybreak-banner-content {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    left: 0;
+    top: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  .daybreak-banner-text-container {
+    background-color: {{ section.settings.background_color }};
+    padding: 3rem;
+    width: 65%;
+    max-width: 1000px;
+    margin: auto;
+    justify-content: center;
+  }
+  .daybreak-banner-text-container h2,
+  .daybreak-banner-text-container p {
+    color: {{ section.settings.font_color }};
+  }
+  .daybreak-banner-text-container h2 {
+    font-size: 1.25rem;
+    font-size: clamp(1rem, 0.0385rem + 5.1282vw, 2.5rem);
+  }
+  @media screen and (min-width: 768px) {
+    .daybreak-banner-text-container h2 {
+      font-size: 2.5rem;
+    }
+  }
+{% endstyle %}
+{% liquid
+  assign full_width = '100vw'
+  assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+  assign fetch_priority = 'auto'
+  assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+  assign sizes = full_width
+%}
+<div id="Banner-{{ section.id }}" class="daybreak-banner">
+  {% if section.settings.image %}
+    {{
+      section.settings.image
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image.width,
+        height: image_height,
+        class: 'daybreak-banner-image',
+        sizes: sizes,
+        widths: widths,
+        fetchpriority: fetch_priority
+    }}
+  {% else %}
+    {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg daybreak-banner-image' }}
+  {% endif %}
+  <div class="daybreak-banner-content day-flex-col">
+    <a href="{{ section.settings.link_entire_block }}" style="text-decoration: none;">
+      <div class="daybreak-banner-text-container day-flex-col page-width">
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'heading' %}
+              <h2
+                class="banner__heading inline-richtext {{ block.settings.heading_size }} text-balance text-center"
+                {{ block.shopify_attributes }}
+              >
+                {{ block.settings.heading }}
+              </h2>
+            {% when 'text' %}
+              <div class="banner__text rte {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+                <p>{{ block.settings.text }}</p>
+              </div>
+            {% when 'buttons' %}
+              <div
+                class="banner__buttons"
+                {{ block.shopify_attributes }}
+              >
+                {% if block.settings.button_label_1 != blank %}
+                  <a
+                    {% if block.settings.button_link_1 == blank %}
+                      role="link" aria-disabled="true"
+                    {% else %}
+                      href="{{ block.settings.button_link_1 }}"
+                    {% endif %}
+                    class="button button--primary"
+                  >
+                    {{ block.settings.button_label_1 | escape }}
+                  </a>
+                {% endif %}
+              </div>
+          {% endcase %}
+        {% endfor %}
+      </div>
+    </a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Daybreak Image Banner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "link_entire_block",
+      "label": "Link Entire block",
+      "default": "/collections/all"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "h2"
+            },
+            {
+              "value": "h1",
+              "label": "h1"
+            },
+            {
+              "value": "h3",
+              "label": "h3"
+            }
+          ],
+          "default": "h1",
+          "label": "h1"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "Text",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "subtitle",
+              "label": "Subtitle"
+            },
+            {
+              "value": "caption-with-letter-spacing",
+              "label": "Caption with letter spacing"
+            }
+          ],
+          "default": "body",
+          "label": "body"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label_1",
+          "default": "Button",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Daybreak Image Banner",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "buttons"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

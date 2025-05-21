@@ -1,0 +1,290 @@
+{% style %}
+  #Banner-{{ section.id }} {
+    width: 100vw;
+    margin: 0 auto;
+    padding: 0;
+  }
+  #hero-image-container-{{ section.id }} {
+    background-color: yellow;
+    width: 100vw;
+    height: 60vh;
+    overflow: hidden;
+  }
+  .hero-image {
+    width: 100%;
+    height: 60vh;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+  #hero-text-container-{{ section.id }} {
+    background-color: {{ section.settings.background_color }};
+    height: auto;
+  }
+  #hero-text-block-{{ section.id }} {
+    justify-content: space-around;
+    height: 100%;
+    width: 100%;
+    padding: 2rem 1.5rem;
+  }
+  #hero-heading-{{ section.id }},
+  #hero-subheading-{{ section.id }} {
+    color: {{ section.settings.text_color }};
+  }
+  #hero-heading-{{ section.id }} {
+    font-size: 2rem;
+  	font-size: clamp(2rem, 1.3576rem + 3.4261vw, 3rem);
+  	margin: 0;
+  	padding: 0;
+  	line-height: 1.2;
+  	text-wrap: balance;
+  }
+  #hero-subheading-{{ section.id }} {
+  	font-size: 1.1rem;
+    padding: 0;
+  	line-height: 1.35;
+  	text-wrap: pretty;
+    max-width: 100%;
+  }
+  #hero-homepage-btn-container-{{ section.id }} {
+    width: 100%;
+    margin: 1.25rem 0 0 0;
+    justify-content: center;
+    align-items: center;
+    wrap: wrap;
+  }
+  #hero-homepage-btn-container-{{ section.id }} > a {
+    text-decoration: none;
+    margin-right: 0;
+  }
+  .hero-homepage-btn {
+    min-width: 250px;
+    font-size: 1rem;
+    text-align: center;
+    margin: 0;
+    color: var(--color-primary);
+    background-color: var(--color-white);
+    border: 1px solid var(--color-primary);
+  }
+  .hero-homepage-btn-secondary {
+    margin-top: .8rem;
+    color: var(--color-primary);
+    background-color: var(--color-three);
+    border: 1px solid var(--color-primary);
+  }
+  @media screen and (min-width: 768px){
+    #Banner-{{ section.id }} {
+      align-items: center;
+      height: 70vh;
+      max-height: 90vh;
+      min-height: 540px;
+      flex-direction: row-reverse;
+    }
+
+    #hero-text-block-{{ section.id }} {
+      height: 100%;
+      justify-content: center;
+      padding: 1rem 0.9rem;
+    }
+    #hero-image-container-{{ section.id }} {
+      width: 67vw;
+      height: 100%;
+    }
+    .hero-image {
+      height: 100%;
+    }
+    #hero-text-container-{{ section.id }} {
+      width: 33vw;
+      height: 100%;
+    }
+    #hero-heading-{{ section.id }} {
+      font-size: clamp(2rem, 1.2558rem + 1.5504vw, 3rem);
+    }
+    #hero-subheading-{{ section.id }} {
+      margin: 0.75rem 0 0 0;
+      font-size: 1rem;
+    }
+    #hero-homepage-btn-container-{{ section.id }} {
+      margin: 1rem 0 0 0;
+      padding: 0;
+    }
+    #hero-homepage-btn-container-{{ section.id }} > a {
+      width: auto;
+    }
+    .hero-homepage-btn {
+      font-size: 1rem;
+      font-weight: 400;
+      min-width: 220px;
+      max-width: 300px;
+      padding: .875rem 2.375rem;
+    }
+    .hero-homepage-btn-secondary {
+      margin-top: .8rem;
+    }
+  }
+  @media screen and (min-width: 1024px){
+    #hero-subheading-{{ section.id }} {
+      font-size: 1.1rem;
+      margin: 1rem 0 0 0;
+    }
+    #hero-homepage-btn-container-{{ section.id }} {
+      margin: 1.5rem 0 0 0;
+      padding: 0;
+    }
+    .hero-homepage-btn-secondary {
+      margin-top: 1rem;
+    }
+  }
+  @media screen and (min-width: 1340px){
+    #hero-text-block-{{ section.id }} {
+      padding: 2rem 2.5rem;
+    }
+  }
+{% endstyle %}
+<div id="Banner-{{ section.id }}" class="hero-homepage day-flex-m-col-d-row">
+  <div id="hero-image-container-{{ section.id }}">
+    {% if section.settings.image != blank %}
+      {% liquid
+        assign sizes = '100vw'
+        assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000'
+        assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+        assign image_class = 'hero-image'
+      %}
+      {{
+        section.settings.image
+        | image_url: width: 3000
+        | image_tag:
+          width: section.settings.image.width,
+          height: image_height,
+          class: image_class,
+          sizes: sizes,
+          widths: widths,
+          fetch_priority: 'high'
+      }}
+    {% else %}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}
+    {% endif %}
+  </div>
+  {% comment %} text {% endcomment %}
+  <div id="hero-text-container-{{ section.id }}">
+    <div id="hero-text-block-{{ section.id }}" class="day-flex-col">
+      {% if section.settings.heading_text != blank %}
+        <h2 id="hero-heading-{{ section.id }}">
+          {{ section.settings.heading_text }}
+        </h2>
+      {% endif %}
+      {% if section.settings.subheading_text != blank %}
+        <p id="hero-subheading-{{ section.id }}">
+          {{ section.settings.subheading_text }}
+        </p>
+      {% endif %}
+      <div id="hero-homepage-btn-container-{{ section.id }}" class="day-flex-col">
+        {% if section.settings.button_label != blank %}
+          <a
+            href="{{ section.settings.button_link }}{% if section.settings.variant_select_id_1 != blank %}?variant={{ section.settings.variant_select_id_1 }}{% endif %}"
+            class="hero-homepage-btn daybreak-button"
+          >
+            {{ section.settings.button_label | escape }}
+          </a>
+        {% endif %}
+        {% if section.settings.button_label_2 != blank %}
+          <a
+            href="{{ section.settings.button_link_2 }}{% if section.settings.variant_select_id_2 != blank %}?variant={{ section.settings.variant_select_id_2 }}{% endif %}"
+            class="hero-homepage-btn hero-homepage-btn-secondary daybreak-button"
+          >
+            {{ section.settings.button_label_2 | escape }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Homepage Hero TWO",
+  "tag": "section",
+  "class": "homepage-hero-two",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Default Image"
+    },
+    {
+      "type": "header",
+      "content": "Homepage Text"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading_text",
+      "label": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading_text",
+      "label": "Subheading 1"
+    },
+    {
+      "type": "header",
+      "content": "Text Positions"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "variant_select_id_1",
+      "label": "Link 1 Variant ID#"
+    },
+    {
+      "type": "text",
+      "id": "button_label_2",
+      "label": "Button label 2"
+    },
+    {
+      "type": "url",
+      "id": "button_link_2",
+      "label": "Link 2"
+    },
+    {
+      "type": "text",
+      "id": "variant_select_id_2",
+      "label": "Link 2 Variant ID#"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Homepage Hero TWO",
+      "settings": {}
+    }
+  ]
+}
+{% endschema %}

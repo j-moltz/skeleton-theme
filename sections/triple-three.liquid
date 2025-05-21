@@ -1,0 +1,115 @@
+<style>
+  #triple-one-{{ section.id }} {
+    background-image: url("{{ section.settings.background_image | image_url }}");
+    background-size: cover;
+    background-position: left;
+    background-repeat: no-repeat;
+  }
+  .triple-one-container {
+    padding: 2rem 0 3rem;
+  }
+  .triple-one-container p {
+    font-size: 1.125rem;
+  }
+  @media screen and (min-width: 768px) {
+    .triple-one-item-container {
+      gap: 10%;
+    }
+  }
+  @media screen and (min-width: 1600px) {
+    .triple-one-item-container {
+      gap: 14%;
+    }
+  }
+</style>
+<div id="triple-one-{{ section.id }}" class="page-width">
+  <div class="triple-one-container">
+    <div class="text-center">
+      {{ section.settings.main_paragraph }}
+    </div>
+    <div class="triple-one-item-container day-flex-m-col-d-row">
+      {% for block in section.blocks %}
+        <div class="triple-one-item">
+          <h4 class="triple-one-item-heading text-center">{{ block.settings.heading }}</h4>
+          <p class="triple-one-item-paragraph text-center">{{ block.settings.block_paragraph }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+  <div>
+    {{ section.settings.image }}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.triple-three.name",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 3,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "main_paragraph",
+      "label": "Main Paragraph"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_bg_color",
+      "label": "Use BG Color"
+    },
+    {
+      "type": "image_picker",
+      "id": "bottom_image",
+      "label": "Bottom Image"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "three-block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.triple-three.blocks.three-block.settings.heading.label",
+          "default": "t:sections.triple-three.blocks.three-block.settings.heading.default"
+        },
+        {
+          "type": "text",
+          "id": "block_paragraph",
+          "label": "Paragraph"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.triple-three.name",
+      "blocks": [
+        {
+          "type": "three-block"
+        },
+        {
+          "type": "three-block"
+        },
+        {
+          "type": "three-block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

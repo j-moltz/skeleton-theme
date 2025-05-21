@@ -1,0 +1,42 @@
+.video-section {
+  width: 100%;
+  overflow: hidden;
+  padding: 3rem 0;
+}
+.video-content-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  margin: 0 auto;
+  gap: 2rem;
+}
+.video-heading {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+.video-subheading > p {
+  margin: 0;
+}
+.video-wrapper {
+  display: grid;
+  margin: auto;
+}
+.daybreak-section-video {
+  width: 100%;
+  height: 100%;
+}
+.video-placeholder {
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%;
+  background-color: #f2f2f2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.video-text-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

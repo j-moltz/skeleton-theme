@@ -8,15 +8,24 @@
  * ------------------------------------------------------------
  */
 {
+  "name": "t:sections.header.name",
   "type": "header",
-  "name": "t:general.header",
   "sections": {
+    "announcement_bar_TkHXeF": {
+      "type": "announcement-bar",
+      "settings": {
+        "announcement_bar_text": "LOVE IT, OR IT’S FREE",
+        "announcement_bar_link": "https://cobidryersheets.com/products/cotton-dryer-sheets?variant=41518035042369#loveitoronus",
+        "announcement_background_color": "#ace3ef",
+        "announcement_text_color": "#13294b"
+      }
+    },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "menu": "main-menu"
+      }
     }
   },
-  "order": [
-    "header"
-  ],
+  "order": ["announcement_bar_TkHXeF", "header"]
 }

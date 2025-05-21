@@ -1,0 +1,35 @@
+.clean-icon-section {
+  width: 100%;
+}
+.clean-icon-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2rem 1rem;
+  max-width: var(--page-width);
+}
+.clean-item {
+  width: 50%;
+  max-width: 250px; 
+  margin: 0;
+  padding: 0 0.3rem;
+}
+.clean-item img {
+  display: block;
+  width: 75%;
+  max-width: 150px; 
+  margin: auto;
+}
+.clean-item figcaption {
+  font-weight: 600;
+  font-size: 1rem;
+}
+@media screen and (min-width: 768px) {
+  .clean-item {
+    width: 25%;
+    max-width: 250px; 
+    margin: 0;
+    padding: 0 0.3rem;
+  }
+}

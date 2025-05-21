@@ -1,0 +1,108 @@
+.ingredient-item > summary > svg {
+  width: 16px;
+  height: 16px;
+  height: auto;
+  color: var(--color-primary);
+  transition: transform 0.2s ease;
+  margin: auto 0 auto;
+  position: static;
+}
+details[open] summary.ingredient-summary > svg {
+  transform: rotate(45deg);
+}
+.cobi-ingredient-table,.pdp-performance-icons {
+  padding: 0 .75rem;
+  display: grid;
+  grid-template-rows: 1fr;
+}
+.ingredient-item {
+  border-bottom: solid 2px var(--color-primary);
+}
+.cobi-ingredient-table .ingredient-item summary {
+  display: grid;
+  grid-template-columns: 90% 10%;
+}
+.ingredient-item > summary > h5 {
+  font-size: 0.875rem;
+}
+.ingredient-item > summary > h5 {
+  margin-right: 1rem;
+}
+details.scent-ingredient-item {
+  border-bottom-width: 1px;
+}
+details.scent-ingredient-item > summary.summary-ingredient-item {
+  padding: 1rem 0;
+}
+details[open].ingredient-item > summary > svg,
+details[open] summary.pdp_accordion_summary > svg {
+  transform: rotate(45deg);
+}
+.cobi-ingredient-sub-content {
+  background-color: var(--color-four);
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  padding: 1.25rem 0.75rem 1.25rem 0.5rem;
+}
+img.cobi-ingredient-icon {
+  height: 100%;
+  width: 100%;
+  margin-right: 1rem;
+}
+.cobi-ingredient-sub-text {
+  margin-left: 1rem;
+}
+.cobi-ingredient-sub-text > h4 {
+  font-size: 1rem;
+}
+.cobi-ingredient-sub-text > p {
+  font-size: .875rem;
+  margin-bottom: 0;
+}
+.pdp_accordion {
+  border-bottom: 1px solid var(--color-primary);
+}
+details.pdp_accordion[open] {
+  padding-bottom: 1.5rem;
+}
+.pdp_accordion summary {
+  line-height: 1;
+  padding: 1.5rem 0;
+}
+summary.pdp_accordion_summary {
+  display: flex;
+  align-items: center;
+}
+
+.pdp_accordion_header {
+  display: inline;
+  margin-right: .5rem;
+}
+.pdp_accordion_summary svg {
+  display: inline;
+}
+.pdp-performance-icons {
+  padding: 0;
+}
+img.pdp-performance-icon {
+  margin-right: 1rem;
+}
+.pdp_accordion_content {
+  padding: 0 1rem 0 2rem;
+}
+.pdp-performance-icons > .pdp_accordion {
+  border: none;
+}
+.pdp-performance-icons > .pdp_accordion > .pdp_accordion_summary {
+  padding: 1rem 0;
+}
+.scent-description {
+  display: none;
+}
+
+#scents {
+  margin: 3rem 0;
+}
+#scents > h2 {
+  margin-bottom: 1rem;
+}

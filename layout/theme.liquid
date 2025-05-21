@@ -2,6 +2,9 @@
 <html lang="{{ request.locale.iso_code }}">
   <head>
     {% # Inlined CSS Variables %}
+    <link rel="stylesheet" href="{{ 'daybreak.css' | asset_url }}" media="print" onload="this.media='all'">
+    <link href="https://use.typekit.net/dfy6bkp.css" rel="preload" as="style">
+    <link rel="stylesheet" href="https://use.typekit.net/dfy6bkp.css">
     {% render 'css-variables' %}
 
     {% # Load and preload the critical CSS %}
@@ -17,6 +20,10 @@
     {% sections 'header-group' %}
 
     {{ content_for_layout }}
+
+    {% if template == 'index' %}
+      {% render 'floating-video' %}
+    {% endif %}
 
     {% sections 'footer-group' %}
   </body>

@@ -1,0 +1,99 @@
+{{ 'daybreak-clean-icons.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .clean-icon-section {
+    background-color: {{ section.settings.background_color }}
+  }
+  .clean-item > svg {
+    fill: {{ section.settings.icon_color }};
+  }
+  .clean-item > figcaption {
+    color: {{ section.settings.font_color }};
+  }
+{% endstyle %}
+
+<div class="clean-icon-section">
+  <div class="clean-icon-wrapper page-width">
+    {% for block in section.blocks %}
+      <figure class="clean-item">
+        {{ block.settings.icon | image_url: width: 200 | image_tag }}
+        <figcaption class="font-fields text-balance text-center">
+          {{ block.settings.heading_line1 -}}
+          <br>
+          {{ block.settings.heading_line2 }}
+        </figcaption>
+      </figure>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Clean Icons",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Clean Icon",
+      "type": "clean-icon",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_line1",
+          "label": "Icon Text Line 1"
+        },
+        {
+          "type": "text",
+          "id": "heading_line2",
+          "label": "Icon Text Line 2"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Clean Icons",
+      "blocks": [
+        {
+          "type": "clean-icon"
+        },
+        {
+          "type": "clean-icon"
+        },
+        {
+          "type": "clean-icon"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

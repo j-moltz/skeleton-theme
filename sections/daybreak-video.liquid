@@ -1,0 +1,164 @@
+{{ 'daybreak-video.css' | asset_url | stylesheet_tag }}
+{% style %}
+  .video-section {
+    text-color: {{ section.settings.text_color }};
+  }
+  .video-text-content {
+    {% if section.settings.full_width == false and section.settings.video_side == 'right' %}
+      grid-row: 1;
+    {% elsif section.settings.full_width == false and section.settings.video_side == 'left' %}
+      grid-row: 2;
+    {% endif %}
+  }
+  .video-video-wrapper {
+    {% if section.settings.full_width == false and section.settings.video_side == 'right' %}
+      grid-row: 2;
+    {% elsif section.settings.full_width == false and section.settings.video_side == 'left' %}
+      grid-row: 1;
+    {% endif %}
+  }
+
+  @media (min-width: 768px) {
+    .video-content-container {
+      {% if section.settings.full_width == true %}
+        grid-template-columns: 1fr;
+      {% else %}
+        grid-template-columns: repeat(2, 1fr);
+      {% endif %}
+    }
+    .video-text-content {
+      grid-row: 1;
+      {% if section.settings.full_width == false and section.settings.video_side == 'right' %}
+        grid-column: 1;
+      {% elsif section.settings.full_width == false and section.settings.video_side == 'left' %}
+        grid-column: 2;
+      {% endif %}
+    }
+    .video-video-wrapper {
+      grid-row: 1;
+      {% if section.settings.full_width == false and section.settings.video_side == 'right' %}
+        grid-column: 2;
+      {% elsif section.settings.full_width == false and section.settings.video_side == 'left' %}
+        grid-column: 1;
+      {% endif %}
+    }
+  }
+{% endstyle %}
+
+<div class="video-section" style="background-color: {{ section.settings.background_color }};">
+  <div class="video-content-container page-width">
+    <div class="video-text-content">
+    {% if section.settings.heading != blank %}
+      <div class="video-heading text-{{ section.settings.text_position }}">
+        <h2>{{ section.settings.heading }}</h2>
+      </div>
+      {%  if section.settings.text_support != blank%}
+        <div class="video-subheading text-{{ section.settings.text_position }}">
+          {{ section.settings.text_support }}
+        </div>
+      {% endif %}
+    {% endif %}
+    </div>
+
+    <div class="video-wrapper">
+      {% if section.settings.video %}
+        {{ section.settings.video
+          | video_tag:
+          loading: 'lazy',
+          class: 'daybreak-section-video',
+          controls: true,
+          autoplay: true,
+          loop: false
+        }}
+      {% else %}
+        <div class="video-placeholder">
+          <p>Please add a video URL in the settings</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Daybreak Video",
+  "settings": [
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full Width",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "video_side",
+      "label": "Video Side",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Featured Video"
+    },
+    {
+      "type": "richtext",
+      "id": "text_support",
+      "label": "Supporting Text"
+    },
+    {
+      "type": "select",
+      "id": "text_position",
+      "label": "Text Position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Daybreak Video",
+      "category": "Video"
+    }
+  ]
+}
+{% endschema %}

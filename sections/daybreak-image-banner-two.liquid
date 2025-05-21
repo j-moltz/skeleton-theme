@@ -1,0 +1,232 @@
+{% style %}
+  #Banner-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+  }
+  .daybreak-banner-two-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .daybreak-banner-two-content {
+    position: absolute;
+    height: 100%;
+    {% if section.settings.text_placement == 'right' %}
+      width: 60%;
+      left: 40%;
+    {% else %}
+      width: 100%;
+      left: 0;
+    {% endif %}
+    top: 0;
+    align-items: center;
+    justify-content: center;
+  }
+  .daybreak-banner-two-text-container {
+    width: 100%;
+    text-align: {{ section.settings.text_alignment }};
+    margin: 20% auto auto 0;
+    justify-content: center;
+  }
+  .daybreak-banner-two-text-container > h2.banner__heading {
+    font-size: 3rem;
+    font-size: clamp(1.125rem, 0.2222rem + 4.8148vw, 6rem);
+  }
+  .daybreak-banner-two-text-container > div.banner__text > p {
+    font-size: 1rem;
+    font-size: clamp(0.5rem, 0.2454rem + 1.358vw, 1.875rem);
+  }
+  /* .double-clipped-image {
+    clip-path: path('M0 0 H100% V100% H0 V0 Z M63% 74% C60% 80% 59.5% 89% 61% 96% C56% 103% 53.5% 115% 56% 124% C58% 132% 63.5% 136% 69% 135% C70% 140% 72% 144% 74% 148% C80.5% 159% 90% 158% 95.5% 146% C97% 143.5% 98% 140% 98.5% 137% C102% 139% 106% 136.5% 109% 131% C113% 122% 112% 108% 107% 100% C105.5% 98% 104% 96% 102% 95.5% C104.5% 84% 103% 70.5% 98.5% 62% C92% 52% 82.5% 54% 77% 67% C76.5% 67.5% 76% 68% 76% 68.5% C71.5% 65% 66% 66.5% 63% 74% M1.5% 82.5% C1.5% 82.5% 19% 113.5% 55% 93% C91.5% 72.5% 100% 98% 100% 98% L100% 0% L0% 0% C0% 0% 1.5% 83% 1.5% 82.5% Z');
+  } */
+{% endstyle %}
+{% liquid
+  assign full_width = '100vw'
+  assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+  assign fetch_priority = 'auto'
+  assign image_height = section.settings.image.width | divided_by: section.settings.image.aspect_ratio
+  assign sizes = full_width
+%}
+
+<div id="Banner-{{ section.id }}" class="daybreak-banner">
+  {% if section.settings.image %}
+    {{
+      section.settings.image
+      | image_url: width: 3840
+      | image_tag:
+        width: section.settings.image.width,
+        height: image_height,
+        class: 'daybreak-banner-two-image double-clipped-image',
+        sizes: sizes,
+        widths: widths,
+        fetchpriority: fetch_priority
+    }}
+  {% else %}
+    {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg daybreak-banner-two-image' }}
+  {% endif %}
+  <div class="daybreak-banner-two-content day-flex-col">
+    <div class="daybreak-banner-two-text-container day-flex-col">
+      {% for block in section.blocks %}
+        {% case block.type %}
+          {% when 'heading' %}
+            <h2
+              class="banner__heading inline-richtext {{ block.settings.heading_size }} text-balance text-center"
+              {{ block.shopify_attributes }}
+            >
+              {{ block.settings.heading }}
+            </h2>
+          {% when 'text' %}
+            <div class="banner__text {{ block.settings.text_style }}" {{ block.shopify_attributes }}>
+              <p>{{ block.settings.text }}</p>
+            </div>
+        {% endcase %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Daybreak Image Banner Two",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text_alignment",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "default": "center"
+    },
+    {
+      "type": "radio",
+      "id": "text_placement",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "heading",
+          "default": "Heading",
+          "label": "Heading"
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "h2",
+              "label": "h2"
+            },
+            {
+              "value": "h1",
+              "label": "h1"
+            },
+            {
+              "value": "h3",
+              "label": "h3"
+            }
+          ],
+          "default": "h1",
+          "label": "h1"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "inline_richtext",
+          "id": "text",
+          "default": "Text",
+          "label": "Text"
+        },
+        {
+          "type": "select",
+          "id": "text_style",
+          "options": [
+            {
+              "value": "body",
+              "label": "Body"
+            },
+            {
+              "value": "subtitle",
+              "label": "Subtitle"
+            },
+            {
+              "value": "caption-with-letter-spacing",
+              "label": "Caption with letter spacing"
+            }
+          ],
+          "default": "body",
+          "label": "body"
+        }
+      ]
+    },
+    {
+      "type": "buttons",
+      "name": "Button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label_1",
+          "default": "Button",
+          "label": "Button Text"
+        },
+        {
+          "type": "url",
+          "id": "button_link_1",
+          "label": "Button Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Daybreak Image Banner Two",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

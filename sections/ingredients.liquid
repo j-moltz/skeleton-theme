@@ -1,0 +1,191 @@
+{{ 'daybreak-ingredients.css' | asset_url | stylesheet_tag }}
+{% style %}
+  .main-page-title.page-title.h0 {
+    margin-bottom: 0;
+  }
+{% endstyle %}
+<div class="page-width" style="max-width: 600px;">
+  <!-- core sheet start -->
+  <div id="core-sheet-ingredients">
+    <h3 class="ingredient-sheet-heading">{{ section.settings.heading | escape }}</h3>
+    {% if section.settings.ingredient_sub_heading %}
+      {{ section.settings.ingredient_sub_heading }}
+    {% endif %}
+    <div class="cobi-product-detail-container">
+      <div class="cobi-ingredient-table cobi-scent-ingredient-table">
+        {% for ingredient in shop.metaobjects.ingredients.values %}
+          {% if ingredient.fragrance_only != true %}
+            <details
+              class="ingredient-item scent-ingredient-item"
+              style="order: {{ ingredient.order }};"
+              {% if ingredient.order == 1 %}
+                open
+              {% endif %}
+            >
+              <summary class="summary-ingredient-item">
+                {% comment %} <h5 class="font-avenir-next font-weight-400">{{ ingredient.scientific_name.value }}</h5> {% endcomment %}
+                <h5 class="">{{ ingredient.from_what.value }}</h5>
+                {{ 'icon-plus.svg' | inline_asset_content }}
+              </summary>
+              <div class="cobi-ingredient-sub-content">
+                {% if ingredient.image != blank %}
+                  {% if ingredient.image contains '.svg' %}
+                    <img
+                      src="//cobi-clean.myshopify.com/cdn/shop/{{ ingredient.image.url }}"
+                      width="150px"
+                      height="150px"
+                      class="cobi-ingredient-icon"
+                      loading="lazy"
+                    >
+                  {% else %}
+                    {{ ingredient.image | image_url: width: 50 | image_tag: loading: 'lazy', widths: '50, 75, 100', class: 'cobi-ingredient-icon' }}
+                  {% endif %}
+                {% endif %}
+                <div class="cobi-ingredient-sub-text">
+                  <h4 class="font-weight-400">{{ ingredient.for_what.value }}</h4>
+                  <p class="font-italic">{{ ingredient.eco_benefits.value }}</p>
+                </div>
+              </div>
+            </details>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  <!-- core sheet end -->
+
+  <!-- Scents start -->
+  <div id="scents">
+    <h2>{{ section.settings.scents_heading }}:</h2>
+    {% if section.settings.scents_sub_heading %}
+      {{ section.settings.scents_sub_heading }}
+    {% endif %}
+    {% for scent in shop.metaobjects.scent_descriptions.values %}
+      {% assign scent_to_check = scent.scent.value.label %}
+      {% if scent_to_check != 'Unscented' %}
+        <h4>{{ scent.scent.value.label }}</h4>
+        {% comment %} {% render 'metaobjects-richtext', rich_text_data: scent.description.value %} {% endcomment %}
+
+        <div class="cobi-product-detail-container">
+          <div class="cobi-ingredient-table cobi-scent-ingredient-table">
+            {% for ingredient in shop.metaobjects.ingredients.values %}
+              {% if ingredient.fragrance_only == true %}
+                {% for scent in ingredient.scents.value %}
+                  {% if scent.label == scent_to_check %}
+                    <details class="ingredient-item scent-ingredient-item" style="order: {{ ingredient.order }};">
+                      <summary class="summary-ingredient-item">
+                        <h5 class="">{{ ingredient.from_what.value }}</h5>
+                        {{ 'icon-plus.svg' | inline_asset_content }}
+                      </summary>
+                      <div class="cobi-ingredient-sub-content">
+                        {% if ingredient.image != blank %}
+                          {% if ingredient.image contains '.svg' %}
+                            <img
+                              src="//cobi-clean.myshopify.com/cdn/shop/{{ ingredient.image.url }}"
+                              width="150px"
+                              height="150px"
+                              class="cobi-ingredient-icon"
+                              loading="lazy"
+                            >
+                          {% else %}
+                            {{
+                              ingredient.image
+                              | image_url: width: 50
+                              | image_tag: loading: 'lazy', widths: '50, 75, 100', class: 'cobi-ingredient-icon'
+                            }}
+                          {% endif %}
+                        {% endif %}
+                        <div class="cobi-ingredient-sub-text">
+                          <h4 class="font-weight-400">{{ ingredient.for_what.value }}</h4>
+                          <p class="font-italic">{{ ingredient.eco_benefits.value }}</p>
+                        </div>
+                      </div>
+                    </details>
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <!-- Scents end -->
+</div>
+{% schema %}
+{
+  "name": "Ingredients",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "ingredient_sub_heading",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "text",
+      "id": "scents_heading",
+      "label": "Scent heading",
+      "default": "Scents"
+    },
+    {
+      "type": "richtext",
+      "id": "scents_sub_heading",
+      "label": "Scent Sub heading"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Scent",
+      "type": "scent",
+      "limit": 2,
+      "settings": [
+        {
+          "type": "text",
+          "id": "scent_heading",
+          "label": "Heading",
+          "default": "Scent"
+        },
+        {
+          "type": "text",
+          "id": "scent_sub_heading",
+          "label": "Sub Heading",
+          "default": "Sub Heading"
+        },
+        {
+          "type": "metaobject",
+          "id": "fragrance",
+          "label": "Scent1",
+          "metaobject_type": "shopify--fragrance"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Ingredients",
+      "blocks": [
+        {
+          "type": "scent"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

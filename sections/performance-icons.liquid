@@ -1,0 +1,99 @@
+{{ 'daybreak-performance-icons.css' | asset_url | stylesheet_tag }}
+
+{% style %}
+  .performance-icon-section {
+    background-color: {{ section.settings.background_color }}
+  }
+  .performance-item > svg {
+    fill: {{ section.settings.icon_color }};
+  }
+  .performance-item > figcaption {
+    color: {{ section.settings.font_color }};
+  }
+{% endstyle %}
+
+<div class="performance-icon-section">
+  <div class="performance-icon-wrapper page-width">
+    {% for block in section.blocks %}
+      <figure class="performance-item">
+        {{ block.settings.icon | image_url: width: 100 | image_tag }}
+        <figcaption class="text-balance text-center">
+          {{ block.settings.heading_line1 -}}
+          <br>
+          {{ block.settings.heading_line2 }}
+        </figcaption>
+      </figure>
+    {% endfor %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Performance Icons",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "font_color",
+      "label": "Font Color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon Color",
+      "default": "#000000"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Performance Icon",
+      "type": "performance-icon",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "heading_line1",
+          "label": "Icon Text Line 1"
+        },
+        {
+          "type": "text",
+          "id": "heading_line2",
+          "label": "Icon Text Line 2"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Performance Icons",
+      "blocks": [
+        {
+          "type": "performance-icon"
+        },
+        {
+          "type": "performance-icon"
+        },
+        {
+          "type": "performance-icon"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

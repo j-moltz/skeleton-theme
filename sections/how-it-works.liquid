@@ -1,0 +1,111 @@
+{% style %}
+  #how-it-works-{{ section.id }} {
+    padding: 2rem 0 1rem;
+    background-color: {{ section.settings.background_color }};
+  }
+  .how-it-works-item-container {
+    position: relative;
+    overflow: auto;
+  }
+  .how-it-works-item-container > ol {
+    list-style: none;
+    counter-reset: list-counter;
+  }
+  .how-it-works-item-container > ol > li {
+    margin-bottom: 1rem;
+    overflow: hidden;
+    counter-increment: list-counter;
+  }
+  .how-it-works-item-container > ol > li:before {
+    content: counter(list-counter);
+    background: white;
+    border-radius: 50%;
+    color: var(--color-primary);
+    width: 2.25rem;
+    height: 2.25rem;
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fields', serif;
+    font-size: 1.25rem;
+   }
+  .how-it-works-item-paragraph {
+    margin: 0 0 0 1rem;
+  }
+  .how-it-works-item-container img {
+    float: right;
+    margin-left: 1rem;
+    max-width: 200px;
+    height: auto;
+  }
+  @media screen and (min-width: 500px) {
+    .how-it-works-item-container img {
+      width: 20%;
+    }
+  }
+{% endstyle %}
+<div id="how-it-works-{{ section.id }}">
+  <div class="page-width">
+    <div class="how-it-works-item-container">
+      <img src="{{ 'icon-cobi-recycle.svg' | file_url }}" alt="recycle can" width="90px" height="auto">
+      <h2 class="font-avenir-next">
+        {{ section.settings.heading }}
+      </h2>
+      <ol>
+        {% for block in section.blocks %}
+          <li class="day-flex-row">
+            {% comment %} <span class="how-it-works-step-number font-fields text-center">{{ forloop.index }}</span> {% endcomment %}
+            <p class="how-it-works-item-paragraph">{{ block.settings.step_text }}</p>
+          </li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "How It Works",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "step-block",
+      "settings": [
+        {
+          "type": "textarea",
+          "id": "step_text",
+          "label": "Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "How it works",
+      "blocks": [
+        {
+          "type": "step-block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

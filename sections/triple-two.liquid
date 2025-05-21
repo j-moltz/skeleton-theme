@@ -1,0 +1,121 @@
+{% style %}
+  #triple-two-{{ section.id }} {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
+    {% if section.settings.background_image %}
+      background-image: url("{{ section.settings.background_image | image_url }}");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    {% else %}
+      background-color: none;
+    {% endif %}
+  }
+  .triple-two-head-text {
+    padding-bottom: 2.5rem;
+  }
+  .triple-two-item {
+    padding: 2.5rem 1.25rem 1.25rem;
+    background-color: {{ section.settings.background_color_blocks }};
+  }
+  @media screen and (min-width: 768px) {
+    .triple-two-item-container {
+      gap: 10%;
+    }
+  }
+  @media screen and (min-width: 1600px) {
+    .triple-two-item-container {
+      gap: 14%;
+    }
+  }
+{% endstyle %}
+<div id="triple-two-{{ section.id }}" class="page-width">
+  <div class="triple-two-container">
+    <div class="triple-two-head-text text-center">
+      {% if section.settings.heading %}
+        <h2>{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.main_paragraph %}
+        {{ section.settings.main_paragraph }}
+      {% endif %}
+    </div>
+    <div class="triple-two-item-container day-flex-m-col-d-row">
+      {% for block in section.blocks %}
+        <div class="triple-two-item">
+          <h3 class="triple-two-item-heading text-center">{{ block.settings.heading }}</h3>
+          <p class="triple-two-item-paragraph text-center">{{ block.settings.block_paragraph }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% schema %}
+{
+  "name": "triple-two",
+  "tag": "section",
+  "class": "section",
+  "max_blocks": 3,
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "heading",
+      "label": "Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "main_paragraph",
+      "label": "Main Paragraph"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background Image"
+    },
+    {
+      "type": "color",
+      "id": "background_color_blocks",
+      "label": "Background Color",
+      "default": "#efefef"
+    }
+  ],
+  "blocks": [
+    {
+      "name": "Block",
+      "type": "three-block",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "t:sections.triple-two.blocks.three-block.settings.heading.label",
+          "default": "t:sections.triple-two.blocks.three-block.settings.heading.default"
+        },
+        {
+          "type": "text",
+          "id": "block_paragraph",
+          "label": "Paragraph"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "triple-two",
+      "blocks": [
+        {
+          "type": "three-block"
+        },
+        {
+          "type": "three-block"
+        },
+        {
+          "type": "three-block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

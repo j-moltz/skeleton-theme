@@ -1,0 +1,111 @@
+<style>
+  .faq-container {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+  .faq-section-heading {
+    margin-bottom: 3rem;
+  }
+  .faq-item {
+    margin: 2rem auto;
+  }
+  .faq-item > summary {
+    font-weight: 600;
+    margin: -0.75rem;
+  }
+  .faq-item > hr {
+    margin-top: 1.5rem;
+  }
+  .faq-item > details {
+    margin: 0 auto;
+    width: 100%;
+  }
+  .faq-item > summary > svg {
+    width: 16px;
+    height: 16px;
+    height: auto;
+    color: var(--color-primary);
+    transition: transform 0.2s ease;
+    margin: auto 0 auto 0.5rem;
+    position: static;
+  }
+  details[open].faq-item summary > svg {
+    transform: rotate(45deg);
+  }
+</style>
+<div class="faq-container page-width">
+  {% if section.settings.heading_text %}
+    <h2 class="text-center faq-section-heading">{{ section.settings.heading_text }}</h2>
+  {% endif %}
+  {% for block in section.blocks %}
+    <div class="faq-item-container">
+      <details class="faq-item">
+        {% if block.settings.heading %}
+          <summary>
+            {{ block.settings.heading }}
+            {{ 'icon-plus.svg' | inline_asset_content }}
+          </summary>
+        {% endif %}
+        {% if block.settings.block_answer %}
+          {{ block.settings.block_answer }}
+        {% endif %}
+      </details>
+      {% unless forloop.last %}
+        <hr>
+      {% endunless %}
+    </div>
+  {% endfor %}
+</div>
+{% schema %}
+{
+  "name": "faq-section",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_text",
+      "default": "Heading",
+      "label": "Heading Text"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "faq-block",
+      "name": "t:sections.faq-section.blocks.faq-block.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "t:sections.faq-section.blocks.faq-block.settings.heading.default",
+          "label": "t:sections.faq-section.blocks.faq-block.settings.heading.label"
+        },
+        {
+          "type": "richtext",
+          "id": "block_answer",
+          "label": "Answer"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "faq-section",
+      "blocks": [
+        {
+          "type": "faq-block"
+        },
+        {
+          "type": "faq-block"
+        },
+        {
+          "type": "faq-block"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

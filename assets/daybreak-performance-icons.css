@@ -1,0 +1,38 @@
+.performance-icon-section {
+  width: 100%;
+}
+.performance-icon-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding: 2rem 1rem;
+  max-width: var(--page-width);
+}
+.performance-item {
+  width: 25%;
+  max-width: 140px; 
+  margin: 0;
+  padding: 0 0.3rem;
+}
+.performance-item img {
+  display: block;
+  width: 75%;
+  max-width: 90px; 
+  margin: auto;
+}
+.performance-item figcaption {
+  font-weight: 600;
+  font-size: .55rem;
+}
+
+@media screen and (min-width: 500px) {
+  .performance-item figcaption {
+    font-size: .75rem;
+  }
+}
+@media screen and (min-width: 768px) {
+  .performance-item figcaption {
+    font-size: .75rem;
+  }
+}

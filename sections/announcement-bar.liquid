@@ -1,0 +1,67 @@
+{{ 'daybreak-announcement-bar.css' | asset_url | stylesheet_tag }}
+{% style %}
+  .announcement-bar {
+    background-color: {{ section.settings.announcement_background_color }};
+  }
+  .announcement-bar__content,
+  .announcement-bar__content a.announcement-bar__link,
+  .announcement-bar__content a.announcement-bar__link:visited {
+    color: {{ section.settings.announcement_text_color }};
+  }
+{% endstyle %}
+
+<div class="announcement-bar">
+  <div class="announcement-bar__content">
+    {% if section.settings.announcement_bar_link %}
+      <a href="{{ section.settings.announcement_bar_link }}" class="announcement-bar__link">
+        {{ section.settings.announcement_bar_text }}
+      </a>
+    {% else %}
+      {{ section.settings.announcement_bar_text }}
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Daybreak Announcement Bar",
+  "class": "daybreak-announcement-bar",
+  "enabled_on": {
+    "groups": ["header"]
+  },
+  "settings": [
+    {
+      "type": "header",
+      "content": "Announcement Bar"
+    },
+    {
+      "type": "text",
+      "id": "announcement_bar_text",
+      "default": "Welcome to our Store",
+      "label": "Announcement Bar Text"
+    },
+    {
+      "type": "url",
+      "id": "announcement_bar_link",
+      "label": "Announcement Bar Link"
+    },
+    {
+      "type": "color",
+      "id": "announcement_background_color",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "announcement_text_color",
+      "label": "Text color",
+      "default": "#FFFFFF"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Daybreak Announcement Bar"
+    }
+  ]
+}
+{% endschema %}

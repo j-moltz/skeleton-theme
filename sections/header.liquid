@@ -1,65 +1,222 @@
+<link rel="stylesheet" href="{{ 'daybreak-header.css' | asset_url }}">
+
 <header>
-  <h2 class="header__title">
-    {{ shop.name | link_to: routes.root_url }}
-  </h2>
+  <div class="daybreak-header page-width">
+    <div class="daybreak-header__menu-burger" id="menuBurger">
+      <span class="bar1"></span>
+      <span class="bar2"></span>
+      <span class="bar3"></span>
+    </div>
+    <div class="daybreak-header__logo">
+      <a href="{{ routes.root_url }}">
+        {{
+          settings.logo
+          | image_url: width: 200
+          | image_tag: class: 'daybreak-header__logo-image', width: settings.logo.width, height: settings.logo.height, alt: settings.logo.alt
+          | default: shop.name
+          | escape
+        }}
+      </a>
+    </div>
 
-  <div class="header__menu">
-    {% for link in section.settings.menu.links %}
-      {{ link.title | link_to: link.url }}
-    {% endfor %}
-  </div>
+    <div class="daybreak-header__menu" id="mobile-menu">
+      <nav>
+        <ol class="main-menu">
+          <li class="daybreak-header__menu-item">
+            <details class="menu-section">
+              <summary>
+                Shop
+                <svg
+                  class="toggle-icon"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+              </summary>
+              <div class="daybreak-header__submenu">
+                <div class="daybreak-header__submenu-products">
+                  <div>
+                    <a href="/products/cotton-dryer-sheets?variant=41518035107905">
+                      <div class="submenu-title text-uppercase">Unscented</div>
+                      <figure>
+                        {{ images['menu-cobi-productbox-unscented.png'] | image_url: width: 180 | image_tag }}
+                      </figure>
+                    </a>
+                  </div>
+                  <div>
+                    <a href="/products/cotton-dryer-sheets" class="submenu-title text-uppercase">Scented</a>
+                    <figure>
+                      <a href="/products/cotton-dryer-sheets?variant=41518035042369">
+                        {{ images['menu-cobi-productbox-scented.png'] | image_url: width: 180 | image_tag }}
+                      </a>
+                    </figure>
+                  </div>
+                </div>
+              </div>
+            </details>
+          </li>
 
-  <div class="header__icons">
-    {% if shop.customer_accounts_enabled %}
-      {{ 'icon-account.svg' | inline_asset_content | link_to: routes.account_url }}
-    {% endif %}
+          {% for link in section.settings.menu.links %}
+            <li class="daybreak-header__menu-item">
+              {% if link.links.size > 0 %}
+                <details class="menu-section">
+                  <summary>
+                    {{ link.title }}
+                    <svg
+                      class="toggle-icon"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                  </summary>
+                  <div class="daybreak-header__submenu">
+                    <ul>
+                      {% for childlink in link.links %}
+                        {% if childlink.links.size > 0 %}
+                          <details class="grandchild-menu-section">
+                            <summary class="text-uppercase">
+                              {{ childlink.title }}
+                              <svg
+                                class="grandchild-toggle-icon"
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="16"
+                                height="16"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              >
+                                <line x1="12" y1="5" x2="12" y2="19"></line>
+                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                              </svg>
+                            </summary>
+                            <div class="daybreak-header__grandchild__submenu">
+                              <ul class="grandchild-links">
+                                {% for grandchildlink in childlink.links %}
+                                  <li class="grandchild-menu-link menu-link text-uppercase">
+                                    <a href="{{ grandchildlink.url }}">{{ grandchildlink.title }}</a>
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            </div>
+                          </details>
+                        {% else %}
+                          <li class="menu-link text-uppercase">
+                            <a href="{{ childlink.url }}">{{ childlink.title }}</a>
+                          </li>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </details>
+              {% else %}
+                <a href="{{ link.url }}">{{ link.title }}</a>
+              {% endif %}
+            </li>
+          {% endfor %}
+        </ol>
+      </nav>
+    </div>
 
-    <a href="{{ routes.cart_url }}">
-      {% if cart.item_count > 0 %}
-        <sup>{{ cart.item_count }}</sup>
+    <div class="daybreak-header__icons">
+      {% if shop.customer_accounts_enabled %}
+        <a
+          href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}"
+          class="header__icon header__icon--account link focus-inset"
+          rel="nofollow"
+        >
+          {{ 'icon-cobi-account.svg' | inline_asset_content }}
+        </a>
       {% endif %}
 
-      {{ 'icon-cart.svg' | inline_asset_content }}
-    </a>
+      <a href="{{ routes.cart_url }}" id="cart-icon-bubble" class="header__icon header__icon--cart link focus-inset">
+        {{ 'icon-cobi-cart.svg' | inline_asset_content }}
+        <span class="visually-hidden">{{ 'templates.cart.cart' | t }}</span>
+        {% if cart != empty %}
+          <div class="cart-count-bubble">
+            {% if cart.item_count < 100 %}
+              <span aria-hidden="true">{{ cart.item_count }}</span>
+            {% endif %}
+            <span class="visually-hidden">{{ 'sections.header.cart_count' | t: count: cart.item_count }}</span>
+          </div>
+        {% endif %}
+      </a>
+    </div>
   </div>
 </header>
 
-{% stylesheet %}
-  header {
-    height: 5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  header a {
-    position: relative;
-    text-decoration: none;
-    color: var(--color-foreground);
-  }
-  header a sup {
-    position: absolute;
-    left: 100%;
-    overflow: hidden;
-    max-width: var(--page-margin);
-  }
-  header svg {
-    width: 2rem;
-  }
-  header .header__menu,
-  header .header__icons {
-    display: flex;
-    gap: 1rem;
-  }
-{% endstylesheet %}
+<script>
+  // Get the menu burger and menu element
+  const menuBurger = document.getElementById('menuBurger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  // Add click event listener to the menu burger
+  menuBurger.addEventListener('click', function () {
+    this.classList.toggle('change');
+    mobileMenu.classList.toggle('open');
+    document.body.classList.toggle('menu-open');
+  });
+
+  // Add click event listeners to details elements to close others when one is opened
+  const detailsElements = document.querySelectorAll('.menu-section');
+
+  detailsElements.forEach((details) => {
+    details.addEventListener('toggle', function () {
+      if (this.open) {
+        // Close all other open details elements
+        detailsElements.forEach((otherDetails) => {
+          if (otherDetails !== this && otherDetails.open) {
+            otherDetails.open = false;
+          }
+        });
+      }
+    });
+  });
+</script>
 
 {% schema %}
 {
-  "name": "t:general.header",
+  "name": "cobi-header",
+  "tag": "section",
+  "class": "section",
+  "enabled_on": {
+    "groups": ["header"]
+  },
   "settings": [
+    {
+      "type": "header",
+      "content": "Menu"
+    },
     {
       "type": "link_list",
       "id": "menu",
-      "label": "t:labels.menu"
+      "default": "main-menu",
+      "label": "Menu"
+    }
+  ],
+  "presets": [
+    {
+      "name": "cobi-header"
     }
   ]
 }

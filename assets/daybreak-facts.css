@@ -1,0 +1,134 @@
+.facts-container {
+  padding: 2rem 1rem;
+}
+
+.facts-carousel {
+  position: relative;
+  overflow: hidden;
+}
+
+.facts-carousel-track {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.facts-item-card {
+  display: none;
+  width: 100%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* When there's only one block, always show it */
+.facts-carousel-track:only-child .facts-item-card {
+  display: grid;
+}
+
+.facts-item-card.active {
+  display: grid;
+  animation: fadeIn 0.5s;
+}
+
+.facts-item-card > div > a {
+  background-color: var(--color-four);
+  color: var(--color-primary);
+  text-align: center;
+}
+
+.facts-item-card > img {
+  width: 100%;
+}
+div.fact-button-container {
+  height: 100%;
+  margin: 3rem auto 1rem;
+  text-align: center;
+}
+div.fact-button-container > a.daybreak-button {
+  font-size: 12px;
+}
+.facts-carousel-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+}
+
+.carousel-dot {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.carousel-dot:hover {
+  transform: scale(1.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media screen and (min-width: 501px) {
+  .facts-item-card {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto;
+  }
+  .facts-item-card > div.fact-button-container {
+    grid-column: span 2;
+    max-width: 420px;
+  }
+}
+
+@media screen and (min-width: 600px) {
+  div.fact-button-container > a.daybreak-button {
+    font-size: 1rem;
+  }
+}
+@media screen and (min-width: 768px) {
+  .facts-item-card {
+    display: none;
+    grid-template-columns: 33% 1fr;
+    grid-template-rows: 1fr 1fr;
+  }
+  .facts-item-card.active {
+    display: grid;
+  }
+  .facts-item-card > img {
+    grid-row: span 2;
+  }
+  .facts-item-card > div.fact-button-container {
+    margin: 1rem auto;
+    grid-column: 2;
+    grid-row: 2;
+    height: auto;
+  }
+}
+
+@media screen and (min-width: 1080px) {
+  .facts-item-card {
+    display: none;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr;
+  }
+  .facts-item-card.active {
+    display: grid;
+  }
+  .facts-item-card > div.fact-button-container {
+    grid-column: 3;
+    grid-row: 1;
+  }
+  div.fact-button-container > a.daybreak-button {
+    font-size: 12px;
+  }
+}
+
+@media screen and (min-width: 1440px) {
+  div.fact-button-container > a.daybreak-button {
+    font-size: 1rem;
+  }
+}

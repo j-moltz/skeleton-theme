@@ -1,0 +1,31 @@
+.announcement-bar .announcement-bar__content {
+  font-family: var(--font-heading-family);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.1rem;
+  text-wrap: balance;
+  text-align: center;
+  padding: 0.5rem;
+  margin: auto;
+  height: 38px;
+  width: 100%;
+}
+
+@media all and (min-width: 500px) {
+  .announcement-bar .announcement-bar__content {
+    padding: 0.5rem 3rem;
+  }
+}
+@media all and (min-width: 650px) {
+  .announcement-bar .announcement-bar__content {
+    font-size: 1rem;
+    padding: 0.5rem 3rem;
+  }
+}
+
+@media all and (min-width: 768px) {
+  .announcement-bar .announcement-bar__content {
+    font-size: 1.125rem;
+    min-height: 43px;
+  }
+}
