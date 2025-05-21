@@ -8,14 +8,11 @@
       <span class="bar3"></span>
     </div>
     <div class="daybreak-header__logo">
-      <a href="{{ routes.root_url }}">Home</a>
       <a href="{{ routes.root_url }}">
         {{
-          settings.logo
-          | image_url: width: 200
-          | image_tag: class: 'daybreak-header__logo-image', width: 200
-          | default: shop.name
-          | escape
+          images['cobi_logo.svg']
+          | image_url: width: 500
+          | image_tag: class: 'daybreak-header__logo-image'
         }}
       </a>
     </div>
