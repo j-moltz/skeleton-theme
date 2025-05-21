@@ -8,7 +8,7 @@
  * ------------------------------------------------------------
  */
 {
-  "name": "t:sections.header.name",
+  "name": "header",
   "type": "header",
   "sections": {
     "announcement_bar_TkHXeF": {

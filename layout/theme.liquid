@@ -2,13 +2,15 @@
 <html lang="{{ request.locale.iso_code }}">
   <head>
     {% # Inlined CSS Variables %}
-    <link rel="stylesheet" href="{{ 'daybreak.css' | asset_url }}" media="print" onload="this.media='all'">
-    <link href="https://use.typekit.net/dfy6bkp.css" rel="preload" as="style">
-    <link rel="stylesheet" href="https://use.typekit.net/dfy6bkp.css">
+    {{ 'daybreak.css' | asset_url | stylesheet_tag: preload: true }}
     {% render 'css-variables' %}
 
     {% # Load and preload the critical CSS %}
     {{ 'critical.css' | asset_url | stylesheet_tag: preload: true }}
+
+    {% # Fonts %}
+    <link href="https://use.typekit.net/dfy6bkp.css" rel="preload" as="style">
+    <link rel="stylesheet" href="https://use.typekit.net/dfy6bkp.css">
 
     {% # Social, title, etc. %}
     {% render 'meta-tags' %}
@@ -21,9 +23,11 @@
 
     {{ content_for_layout }}
 
-    {% if template == 'index' %}
-      {% render 'floating-video' %}
-    {% endif %}
+    {%  comment %}
+      {% if template == 'index' %}
+        {% render 'floating-video' %}
+      {% endif %}
+    {% endcomment %}
 
     {% sections 'footer-group' %}
   </body>

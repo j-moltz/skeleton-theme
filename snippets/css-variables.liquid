@@ -1,14 +1,35 @@
 {% style %}
-  {% # Loads all font variantions with display: swap %}
-  {{ settings.type_primary_font | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'weight', 'bold' | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-  {{ settings.type_primary_font | font_modify: 'style', 'italic' | font_face: font_display: 'swap' }}
-
   :root {
-    --font-primary--family: {{ settings.type_primary_font.family }}, {{ settings.type_primary_font.fallback_families }};
-    --font-primary--style: {{ settings.type_primary_font.style }};
-    --font-primary--weight: {{ settings.type_primary_font.weight }};
+    /* Fonts */
+    --font-body-family: "Avenir Next", sans-serif;
+    --font-body-style: normal;
+    --font-body-weight: 400;
+
+    --font-heading-family: "Fields", serif;
+    --font-heading-style: normal;
+    --font-heading-weight: 600;
+
+    /* Colors */
+    color-primary-dark-blue: #13294b;
+    color-two-blue: #009ecc;
+    color-three-light-blue: #ace3ef;
+    color-four-tan: #f9f6e5;
+    color-five-yellow: #ccff00;
+    color-six-rose: #f2cfb8;
+    color-white: #ffffff;
+    color-black: #000000;
+    color-grey: #121212;
+    --color-primary: {{ settings.color_primary }};
+    --color-yellow: {{ settings.color_five }};
+    --color-two: {{ settings.color_two }};
+    --color-three: {{ settings.color_three }};
+    --color-four: {{ settings.color_four }};
+    --color-five: {{ settings.color_five }};
+    --color-white: {{ settings.color_white }};
+    --color-black: {{ settings.color_black }};
+    --color-grey: {{ settings.color_grey }};
+
+
     --page-width: {{ settings.max_page_width }};
     --page-margin: {{ settings.min_page_margin }}px;
     --color-background: {{ settings.background_color }};
