@@ -8,11 +8,12 @@
       <span class="bar3"></span>
     </div>
     <div class="daybreak-header__logo">
+      <a href="{{ routes.root_url }}">Home</a>
       <a href="{{ routes.root_url }}">
         {{
           settings.logo
           | image_url: width: 200
-          | image_tag: class: 'daybreak-header__logo-image', width: settings.logo.width, height: settings.logo.height, alt: settings.logo.alt
+          | image_tag: class: 'daybreak-header__logo-image', width: 200
           | default: shop.name
           | escape
         }}
