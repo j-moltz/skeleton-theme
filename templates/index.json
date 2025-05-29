@@ -11,7 +11,6 @@
   "sections": {
     "hero_homepage_two_4NhEDW": {
       "type": "hero-homepage-two",
-      "name": "Homepage Hero TWO",
       "settings": {
         "image": "shopify://shop_images/collection-tiles.jpg",
         "heading_text": "heading",
@@ -25,9 +24,68 @@
         "button_link_2": "shopify://products/cotton-dryer-sheets",
         "variant_select_id_2": "2"
       }
+    },
+    "custom_section_j7wj3F": {
+      "type": "custom-section",
+      "blocks": {
+        "group_tjYez8": {
+          "type": "group",
+          "name": "t:general.row",
+          "settings": {
+            "layout_direction": "group--horizontal",
+            "alignment": "flex-start",
+            "padding": 0
+          },
+          "blocks": {
+            "text_AUMPg8": {
+              "type": "text",
+              "name": "t:general.text",
+              "settings": {
+                "text": "Text",
+                "text_style": "text--title",
+                "alignment": "right"
+              },
+              "blocks": {}
+            },
+            "text_7wD8Tb": {
+              "type": "text",
+              "name": "t:general.text",
+              "settings": {
+                "text": "Text",
+                "text_style": "text--title",
+                "alignment": "left"
+              },
+              "blocks": {}
+            },
+            "text_tHPtpX": {
+              "type": "text",
+              "name": "t:general.text",
+              "settings": {
+                "text": "Text",
+                "text_style": "text--title",
+                "alignment": "left"
+              },
+              "blocks": {}
+            }
+          },
+          "block_order": [
+            "text_AUMPg8",
+            "text_7wD8Tb",
+            "text_tHPtpX"
+          ]
+        }
+      },
+      "block_order": [
+        "group_tjYez8"
+      ],
+      "name": "t:general.custom_section",
+      "settings": {
+        "background_image": "shopify://shop_images/Image_Wildwood-Farms_Desktop.png"
+      }
     }
   },
   "order": [
-    "hero_homepage_two_4NhEDW"
+    "hero_homepage_two_4NhEDW",
+    "custom_section_j7wj3F"
   ]
 }
